@@ -24,8 +24,15 @@ public class GUI : MonoBehaviour
         volumeSlider.value = .15f;
     }
 
+    public void quitButton()
+    {
+        Application.Quit();
+    }
+
     public IEnumerator creditButtonIE()
     {
+        MenuCanvas.SetActive(false);
+        creditSceneCanvas.SetActive(true);
         yield return new WaitForSeconds(3f);
         creditSceneCanvas.SetActive(false);
         MenuCanvas.SetActive(true);
@@ -33,8 +40,6 @@ public class GUI : MonoBehaviour
 
     public void creditButton()
     {
-        MenuCanvas.SetActive(false);
-        creditSceneCanvas.SetActive(true);
         StartCoroutine("creditButtonIE");
     }
 
@@ -47,18 +52,17 @@ public class GUI : MonoBehaviour
     {
         if(finalScoreCount < 5)
         {
-            finalScoreCount++;
+            finalScoreText.text = (++finalScoreCount).ToString();
         }
-        finalScoreText.text = finalScoreCount.ToString();
     }
 
     public void leftArrow()
     {
         if (finalScoreCount > 1)
         {
-            finalScoreCount--;
+            finalScoreText.text = (--finalScoreCount).ToString();
         }
-        finalScoreText.text = finalScoreCount.ToString();
+  
     }
 
     public void settingsButton()

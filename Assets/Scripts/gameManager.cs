@@ -1,13 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class gameManager : MonoBehaviour
 {
     public GameObject Player1,Player2,Ball;
     public Sprite yellow, green, red, orange, blue, purple;
     public Sprite yellowBall, greenBall, redBall, orangeBall, blueBall, purpleBall;
+    private int pauseIndex;
     private SpriteRenderer leftsp, rightsp, ballsp;
+    public GameObject pauseText,menuButtonGO;
 
     private void Awake()
     {
@@ -17,6 +21,8 @@ public class gameManager : MonoBehaviour
     }
     void Start()
     {
+        Time.timeScale = 1.0f;
+        pauseIndex = 0;
         switch (GUI.leftColor)
         {
             case 1:
@@ -81,6 +87,31 @@ public class gameManager : MonoBehaviour
                 break;
         }
 
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape) && pauseIndex == 0)
+        {
+            pauseText.SetActive(true);
+            menuButtonGO.SetActive(true);
+            Time.timeScale = 0f;
+            pauseIndex++;
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape) && pauseIndex == 1)
+        {
+            pauseText.SetActive(false);
+            menuButtonGO.SetActive(false);
+            Time.timeScale = 1f;
+            pauseIndex--;
+        }
+    }
+
+    public void menuButton()
+    {
+        SceneManager.LoadScene(0);
+        BallController.leftScorePoint = 0;
+        BallController.rightScorePoint = 0;
     }
 
 }

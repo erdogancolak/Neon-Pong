@@ -12,34 +12,16 @@ public class BallController : MonoBehaviour
     private Vector3 lastVelocity;
     public Text leftScoreText,rightScoreText;
     public static int leftScorePoint,rightScorePoint;
-    private int randomNumber,randomNumber2;
-    private int firstYValue,secondYValue;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        randomNumber = Random.Range(0, 2);
-        randomNumber2 = Random.Range(0, 2);
-        firstYValue = Random.Range(-160, -100);
-        secondYValue = Random.Range(100, 200);
     }
     void Start()
     {
-        if (randomNumber == 1 && randomNumber2 == 1)
-        {
-            rb.AddForce(new Vector2(80, firstYValue));
-        }
-        if (randomNumber == 1 && randomNumber2 == 0)
-        {
-            rb.AddForce(new Vector2(80, secondYValue));
-        }
-        if (randomNumber == 0 && randomNumber2 == 1)
-        {
-            rb.AddForce(new Vector2(-80, firstYValue));
-        }
-        if (randomNumber == 0 && randomNumber2 == 0)
-        {
-            rb.AddForce(new Vector2(-80, secondYValue));
-        }
+        float[] angelList = { Random.Range(30,60),Random.Range(120,150), Random.Range(210,240), Random.Range(300,330) };
+        float angelRad = angelList[Random.Range(0, angelList.Length)] * Mathf.Deg2Rad;
+        Vector2 dir = new Vector2(Mathf.Cos(angelRad), Mathf.Sin(angelRad));
+        rb.AddForce(dir * 2.5f, ForceMode2D.Impulse);       
         leftScoreText.text = leftScorePoint.ToString();
         rightScoreText.text = rightScorePoint.ToString();
     }
@@ -74,15 +56,13 @@ public class BallController : MonoBehaviour
         audioManager.instance.Play("goalSound");
         if(collision.gameObject.CompareTag("rightGoal"))
         {
-            leftScorePoint++;
-            leftScoreText.text = leftScorePoint.ToString();
+            leftScoreText.text = (++leftScorePoint).ToString();
             this.gameObject.GetComponent<SpriteRenderer>().enabled = false;
             StartCoroutine(restartScene());
         }
         if (collision.gameObject.CompareTag("leftGoal"))
         {
-            rightScorePoint++;
-            rightScoreText.text = rightScorePoint.ToString();
+            rightScoreText.text = (++rightScorePoint).ToString();
             this.gameObject.GetComponent<SpriteRenderer>().enabled = false;
             StartCoroutine(restartScene());
         }

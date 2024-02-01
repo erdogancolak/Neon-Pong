@@ -7,6 +7,7 @@ public class Player1Controller : MonoBehaviour
     [SerializeField] private float speed;
     void Start()
     {
+
     }
 
 
